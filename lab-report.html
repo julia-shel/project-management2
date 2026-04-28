@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Звіт з лабораторної роботи - Тестування</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        h1 {
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            margin-top: 30px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+        pre {
+            background-color: #282c34;
+            color: #abb2bf;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .success {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        .error {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        .card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Звіт з лабораторної роботи: Тестування ПЗ</h1>
+    <p><strong>Проєкт:</strong> Task Manager (Менеджер завдань) — Vue 3 + Vite</p>
+
+    <div class="card">
+        <h2>Крок 1: Налаштування тестового оточення <span class="success">✅ Виконано</span></h2>
+        <p>Всі необхідні бібліотеки встановлені та налаштовані:</p>
+        <ul>
+            <li><code>vitest</code>, <code>@vue/test-utils</code>, <code>jsdom</code> для Unit-тестів.</li>
+            <li><code>@playwright/test</code> для E2E-тестів.</li>
+            <li><code>@vitest/coverage-v8</code> для аналізу покриття.</li>
+        </ul>
+        <p>Скрипти налаштовані в <code>package.json</code> та конфігурації у <code>vite.config.js</code> і <code>playwright.config.js</code>.</p>
+    </div>
+
+    <div class="card">
+        <h2>Крок 2: Модульні тести (Unit Tests) <span class="success">✅ Виконано (9/9)</span></h2>
+        <p>Написано 9 модульних тестів для бізнес-логіки (винесеної в <code>useTaskManager.js</code>) з використанням <code>vitest</code>.</p>
+        <pre>
+ RUN  v4.1.5
+
+ ✓ Тест 1: початковий список завдань має бути порожнім
+ ✓ Тест 2: addTask() додає завдання з правильними властивостями
+ ✓ Тест 3: addTask() НЕ додає порожнє або пробільне завдання
+ ✓ Тест 4: toggleTask() перемикає статус completed туди й назад
+ ✓ Тест 5: removeTask() видаляє завдання за id, не чіпаючи інші
+ ✓ Тест 6: filteredTasks("active") повертає лише невиконані
+ ✓ Тест 7: filteredTasks("completed") повертає лише виконані
+ ✓ Тест 8: activeCount computed правильно рахує невиконані
+ ✓ Тест 9 (Mock): mock-функція сповіщення викликається
+
+ Test Files  1 passed (1)
+      Tests  9 passed (9)
+        </pre>
+    </div>
+
+    <div class="card">
+        <h2>Крок 3: Аналіз покриття коду (Coverage Report) <span class="success">✅ Виконано</span></h2>
+        <p>Покриття бізнес-логіки (<code>useTaskManager.js</code>) становить <strong>95.83%</strong>.</p>
+        <pre>
+-------------------|---------|----------|---------|---------|
+File               | % Stmts | % Branch | % Funcs | % Lines |
+-------------------|---------|----------|---------|---------|
+All files          |   33.82 |    11.32 |   47.82 |   23.63 |
+ src/composables   |   95.83 |       75 |     100 |   92.85 |
+  useTaskManager.js|   95.83 |       75 |     100 |   92.85 |
+-------------------|---------|----------|---------|---------|
+        </pre>
+    </div>
+
+    <div class="card">
+        <h2>Крок 4: Наскрізне тестування (E2E Testing) <span class="success">✅ Виконано (2/2)</span></h2>
+        <p>Написано 2 E2E сценарії за допомогою <code>Playwright</code>.</p>
+        <pre>
+Running 2 tests using 2 workers
+
+  ok 1 [chromium] › Сценарій 1: Успішне додавання нового завдання
+  ok 2 [chromium] › Сценарій 2: Відмічання завдання як виконаного
+
+  2 passed (5.1s)
+        </pre>
+    </div>
+
+    <div class="card">
+        <h2>Крок 5: Зламаний тест (Broken Test) <span class="success">✅ Виконано</span></h2>
+        <p>У код навмисно було внесено помилку в функцію <code>removeTask</code> (використано <code>===</code> замість <code>!==</code>). Система тестування успішно це виявила:</p>
+        <pre class="error">
+ FAIL  AssertionError:
+   Expected: "Завдання для збереження"
+   Received: "Завдання для видалення"
+
+ × Тест 5: removeTask() видаляє завдання за id, не чіпаючи інші
+        </pre>
+        <p>Після демонстрації багу, код було повернуто до правильного стану, і всі тести знову пройшли успішно.</p>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px; color: #7f8c8d;">
+        <p>Згенеровано для лабораторної роботи.</p>
+    </div>
+
+</body>
+</html>
