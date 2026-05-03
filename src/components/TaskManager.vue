@@ -10,6 +10,8 @@ const activeFilter = ref('all')
 const filters = ['all', 'active', 'completed']
 const filterLabels = { all: 'Всі', active: 'Активні', completed: 'Виконані' }
 
+const appStatus = import.meta.env.VITE_APP_STATUS || 'Unknown Mode'
+
 function handleAddTask() {
   if (addTask(newTaskText.value)) {
     newTaskText.value = ''
@@ -34,6 +36,9 @@ function handleKeyDown(e) {
               <span class="count-badge">{{ activeCount }}</span>
               {{ activeCount === 1 ? 'завдання' : 'завдань' }} залишилось
             </p>
+            <div class="env-status" style="margin-top: 5px; font-size: 0.75rem; color: #8b5cf6; border: 1px solid #8b5cf6; padding: 2px 6px; border-radius: 4px; display: inline-block;">
+              {{ appStatus }}
+            </div>
           </div>
         </div>
       </header>
